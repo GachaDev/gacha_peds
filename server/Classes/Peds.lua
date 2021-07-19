@@ -1,7 +1,6 @@
-CreatePedTable = function(id, identifier, peds)
+CreatePedTable = function(identifier, peds)
 
     local this = {}
-    this.id = id
     this.identifier = identifier
     this.peds = peds
 
@@ -15,6 +14,20 @@ CreatePedTable = function(id, identifier, peds)
             else
                 return this.peds
             end
+        end
+
+        options.addPed = function(model, label, cb)
+            table.insert(this.peds, {value = model, label = label})
+            MySQL.Async.execute("UPDATE gacha_peds SET peds = @peds WHERE identifier = @identifier", {
+                ['@peds'] = json.encode(this.peds),
+                ['@identifier'] = this.identifier,
+            }, function(row)
+                if cb then
+                    return cb(true)
+                else
+                    return true
+                end
+            end)
         end
 
         options.editLabel = function(model, label, cb)
