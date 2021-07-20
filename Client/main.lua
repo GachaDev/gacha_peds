@@ -10,6 +10,8 @@ RegisterCommand('openpedmenu', function ()
     OpenPedMenu()
 end)
 
+RegisterKeyMapping('openpedmenu', "Abrir Ped Menu", 'keyboard', 'F5')
+
 RegisterNetEvent('gacha_peds:client:openDeletePedMenu')
 AddEventHandler('gacha_peds:client:openDeletePedMenu', function(results, currentSource)
     if next(results) ~= nil then
