@@ -14,7 +14,7 @@ client_scripts {
 server_scripts {
 	'@mysql-async/lib/MySQL.lua',
 	'config.lua',
-	'Server/Modules/*.lua',
-	'Server/*.lua',
-	'Server/Classes/*.lua'
+	'server/Modules/*.lua',
+	'server/*.lua',
+	'server/Classes/*.lua'
 }
