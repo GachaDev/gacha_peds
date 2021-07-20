@@ -7,7 +7,8 @@ author 'Gacha#4596'
 description 'A ped system by Gacha'
 
 client_scripts {
-	'client/*.lua',
+	'Client/Modules/*.lua',
+	'Client/*.lua',
 }
 
 server_scripts {

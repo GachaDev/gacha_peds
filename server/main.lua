@@ -29,3 +29,13 @@ RegisterCommand('giveped', function(source, args)
         end
     end
 end)
+
+ESX.RegisterServerCallback('gacha_peds:callback:getPeds', function(source, cb)
+    local xPlayer = ESX.GetPlayerFromId(source)
+    local userPed = Peds[xPlayer.getIdentifier()]
+    if userPed == nil then
+        cb({})
+    else
+        cb(userPed.options().getPedsTable())
+    end
+end)
