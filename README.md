@@ -4,3 +4,4 @@
 - To open Ped Menu: F5
 - 0.00 ms
 - Preview: https://youtu.be/iUkbxEDWqAo
+- Discord Community: https://discord.gg/GarJqg77aC
