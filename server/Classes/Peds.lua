@@ -32,7 +32,7 @@ CreatePedTable = function(identifier, peds)
 
         options.editLabel = function(model, label, cb)
             for k,v in pairs(this.peds) do
-                if v.model == model then
+                if v.value == model then
                     v.label = label
                     MySQL.Async.execute("UPDATE gacha_peds SET peds = @peds WHERE identifier = @identifier", {
                         ['@peds'] = json.encode(this.peds),
@@ -50,7 +50,7 @@ CreatePedTable = function(identifier, peds)
 
         options.removePed = function(model, cb)
             for k,v in pairs(this.peds) do
-                if v.model == model then
+                if v.value == model then
                     table.remove(this.peds, k)
                     MySQL.Async.execute("UPDATE gacha_peds SET peds = @peds WHERE identifier = @identifier", {
                         ['@peds'] = json.encode(this.peds),

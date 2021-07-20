@@ -1,5 +1,6 @@
+local CurrentPedsUser = {}
 SetPed = function(model)
-    local modelHash = GetHashKey(currentModel)
+    local modelHash = GetHashKey(model)
     local health = GetEntityHealth(PlayerPedId())
     SetPedDefaultComponentVariation(PlayerPedId())
     ESX.Streaming.RequestModel(modelHash, function()
@@ -36,8 +37,36 @@ RestoreWeapons = function()
 
             if not ammoTypes[ammoType] then
                 AddAmmoToPed(playerPed, weaponHash, v.ammo)
-                ammoTypes[ammoType] = true
             end
         end
+    end)
+end
+
+OpenDeletePedMenu = function(currentSource, results)
+    if results ~= nil then
+        CurrentPedsUser = results
+    end
+    local elements = {}
+    for k,v in pairs(CurrentPedsUser) do
+        table.insert(elements,{value = v.value, label = 'Eliminar - ' ..v.label})
+    end
+    ESX.UI.Menu.Open('default',GetCurrentResourceName(),"delete_peds_menu",
+    {
+    title = "Delete Peds",
+    align = "bottom-right",
+    elements = elements
+    }, function(data, menu)
+        if data.current.value then
+            for k,v in pairs(CurrentPedsUser) do
+                if v.value == data.current.value then
+                    table.remove(CurrentPedsUser, k)
+                end
+            end
+            TriggerServerEvent('gacha_peds:server:deletePed', data.current.value, currentSource)
+            ESX.UI.Menu.CloseAll()
+            OpenDeletePedMenu(currentSource)
+        end
+    end, function(data, menu)
+        menu.close()
     end)
 end
