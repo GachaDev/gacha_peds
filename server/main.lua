@@ -39,3 +39,8 @@ ESX.RegisterServerCallback('gacha_peds:callback:getPeds', function(source, cb)
         cb(userPed.options().getPedsTable())
     end
 end)
+
+ESX.RegisterServerCallback('gacha_peds:callback:getCurrentLoadOut', function(source, cb)
+    local xPlayer = ESX.GetPlayerFromId(source)
+    cb(xPlayer.getLoadout())
+end)

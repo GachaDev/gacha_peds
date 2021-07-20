@@ -21,7 +21,9 @@ OpenPedMenu = function()
                     {value = 'editLabel', label = 'Edit label'}
                 }
                 }, function(data2, menu2)
-                    print(data2.current.value)
+                    if data2.current.value == 'setPed' then
+                        SetPed(model)
+                    end
                 end, function(data2, menu2)
                     menu2.close()
                 end)
