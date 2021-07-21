@@ -11,10 +11,17 @@ end
 NewPedTable = function(identifier, model, label, target, xPlayer)
     local peds = {}
     table.insert(peds, {value = model, label = label})
-    MySQL.Async.execute("INSERT INTO gacha_peds (identifier, peds) VALUES (@identifier, @peds)", {
-        ['@identifier']    = identifier,
-        ['@peds'] = json.encode(peds)
-    })
+    if not Config.UseGhmattimysql then
+        MySQL.Async.execute("INSERT INTO gacha_peds (identifier, peds) VALUES (@identifier, @peds)", {
+            ['@identifier']    = identifier,
+            ['@peds'] = json.encode(peds)
+        })
+    else
+        exports.ghmattimysql:execute("INSERT INTO gacha_peds (identifier, peds) VALUES (@identifier, @peds)", {
+            ['@identifier'] = identifier,
+            ['@peds'] = json.encode(peds)
+        })
+    end
     Peds[identifier] = CreatePedTable(identifier, peds)
     xPlayer.showNotification("Ped added successfully!")
     target.showNotification('You received a ped')
