@@ -18,32 +18,58 @@ CreatePedTable = function(identifier, peds)
 
         options.addPed = function(model, label, cb)
             table.insert(this.peds, {value = model, label = label})
-            MySQL.Async.execute("UPDATE gacha_peds SET peds = @peds WHERE identifier = @identifier", {
-                ['@peds'] = json.encode(this.peds),
-                ['@identifier'] = this.identifier,
-            }, function(row)
-                if cb then
-                    return cb(true)
-                else
-                    return true
-                end
-            end)
+            if not Config.UseGhmattimysql then
+                MySQL.Async.execute("UPDATE gacha_peds SET peds = @peds WHERE identifier = @identifier", {
+                    ['@peds'] = json.encode(this.peds),
+                    ['@identifier'] = this.identifier,
+                }, function(row)
+                    if cb then
+                        return cb(true)
+                    else
+                        return true
+                    end
+                end)
+            else
+                exports.ghmattimysql:execute("UPDATE gacha_peds SET peds = @peds WHERE identifier = @identifier", {
+                    ['@peds'] = json.encode(this.peds),
+                    ['@identifier'] = this.identifier,
+                }, function(row)
+                    if cb then
+                        return cb(true)
+                    else
+                        return true
+                    end
+                end)
+            end
         end
 
         options.editLabel = function(model, label, cb)
             for k,v in pairs(this.peds) do
                 if v.value == model then
                     v.label = label
-                    MySQL.Async.execute("UPDATE gacha_peds SET peds = @peds WHERE identifier = @identifier", {
-                        ['@peds'] = json.encode(this.peds),
-                        ['@identifier'] = this.identifier,
-                    }, function(row)
-                        if cb then
-                            return cb(true)
-                        else
-                            return true
-                        end
-                    end)
+                    if not Config.UseGhmattimysql then
+                        MySQL.Async.execute("UPDATE gacha_peds SET peds = @peds WHERE identifier = @identifier", {
+                            ['@peds'] = json.encode(this.peds),
+                            ['@identifier'] = this.identifier,
+                        }, function(row)
+                            if cb then
+                                return cb(true)
+                            else
+                                return true
+                            end
+                        end)
+                    else
+                        exports.ghmattimysql:execute("UPDATE gacha_peds SET peds = @peds WHERE identifier = @identifier", {
+                            ['@peds'] = json.encode(this.peds),
+                            ['@identifier'] = this.identifier,
+                        }, function(row)
+                            if cb then
+                                return cb(true)
+                            else
+                                return true
+                            end
+                        end)
+                    end
                 end
             end
         end
@@ -52,16 +78,29 @@ CreatePedTable = function(identifier, peds)
             for k,v in pairs(this.peds) do
                 if v.value == model then
                     table.remove(this.peds, k)
-                    MySQL.Async.execute("UPDATE gacha_peds SET peds = @peds WHERE identifier = @identifier", {
-                        ['@peds'] = json.encode(this.peds),
-                        ['@identifier'] = this.identifier,
-                    }, function(row)
-                        if cb then
-                            return cb(true)
-                        else
-                            return true
-                        end
-                    end)
+                    if not Config.UseGhmattimysql then
+                        MySQL.Async.execute("UPDATE gacha_peds SET peds = @peds WHERE identifier = @identifier", {
+                            ['@peds'] = json.encode(this.peds),
+                            ['@identifier'] = this.identifier,
+                        }, function(row)
+                            if cb then
+                                return cb(true)
+                            else
+                                return true
+                            end
+                        end)
+                    else
+                        exports.ghmattimysql:execute("UPDATE gacha_peds SET peds = @peds WHERE identifier = @identifier", {
+                            ['@peds'] = json.encode(this.peds),
+                            ['@identifier'] = this.identifier,
+                        }, function(row)
+                            if cb then
+                                return cb(true)
+                            else
+                                return true
+                            end
+                        end)
+                    end
                 end
             end
         end

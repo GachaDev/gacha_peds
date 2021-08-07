@@ -2,13 +2,21 @@ Peds = {}
 ESX = nil
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
-MySQL.ready(function()
-    MySQL.Async.fetchAll('SELECT * FROM gacha_peds', {}, function(x)
+if not Config.UseGhmattimysql then
+    MySQL.ready(function()
+        MySQL.Async.fetchAll('SELECT * FROM gacha_peds', {}, function(x)
+            for k,v in pairs(x) do
+                Peds[v.identifier] = CreatePedTable(v.identifier, json.decode(v.peds))
+            end
+        end)
+    end)
+else
+    exports.ghmattimysql:execute("SELECT * FROM gacha_peds", {}, function(x)
         for k,v in pairs(x) do
             Peds[v.identifier] = CreatePedTable(v.identifier, json.decode(v.peds))
         end
-	end)
-end)
+    end)
+end
 
 RegisterCommand('giveped', function(source, args)
     local xPlayer = ESX.GetPlayerFromId(source)
